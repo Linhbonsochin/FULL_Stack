@@ -1,0 +1,152 @@
+name: Security & Code Quality Checks
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run daily at 2 AM UTC
+    - cron: '0 2 * * *'
+
+jobs:
+  dependency-check:
+    runs-on: ubuntu-latest
+    name: Dependency Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run dependency check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          path: '.'
+          format: 'Sarif'
+          args: >
+            --enableExperimental
+            --scan .
+
+      - name: Upload dependency check results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'dependency-check-report.sarif'
+
+  container-scan:
+    runs-on: ubuntu-latest
+    name: Container Image Scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image for scanning
+        run: docker build -t attendance-service:scan -f API/Dockerfile .
+
+      - name: Scan with Grype
+        uses: anchore/scan-action@v3
+        id: grype
+        with:
+          image: attendance-service:scan
+          fail-build: true
+          severity-cutoff: medium
+
+      - name: Upload Grype results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: ${{ steps.grype.outputs.sarif }}
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    name: Secret Scanning
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: TruffleHog Secret Scanning
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: ./
+          base: ${{ github.event.repository.default_branch }}
+          head: HEAD
+          extra_args: --debug --only-verified
+
+  dotnet-format:
+    runs-on: ubuntu-latest
+    name: Code Format Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install dotnet format
+        run: dotnet tool install -g dotnet-format
+
+      - name: Check code format
+        run: dotnet format API/API.csproj --verify-no-changes --verbosity diagnostic
+
+  csharp-lint:
+    runs-on: ubuntu-latest
+    name: C# Linting
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install StyleCop Analyzers
+        run: |
+          cd API
+          dotnet add package StyleCop.Analyzers
+
+      - name: Build with analyzer
+        run: |
+          cd API
+          dotnet build -c Release /p:EnforceCodeStyleInBuild=true
+
+  sast:
+    runs-on: ubuntu-latest
+    name: Static Application Security Testing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Run Microsoft Security DevOps
+        uses: microsoft/security-devops-action@main
+        id: msdo
+
+      - name: Upload results to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: '${{ steps.msdo.outputs.sarifFile }}'
+
+  license-check:
+    runs-on: ubuntu-latest
+    name: License Compliance Check
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check licenses
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
