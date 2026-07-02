@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>720bb0ac-4195-4239-9a81-98f2002d83f4</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <AssemblyName>API</AssemblyName>
+    <RootNamespace>API</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Entity Framework Core -->
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+
+    <!-- MassTransit and RabbitMQ -->
+    <PackageReference Include="MassTransit" Version="9.1.2" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="9.1.2" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.23.0" />
+
+    <!-- Swagger/OpenAPI -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="10.2.1" />
+
+    <!-- Additional utilities -->
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+
+    <!-- JWT Token Generation -->
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
+
+    <!-- Polly for Resilience (Retry Policy) -->
+    <PackageReference Include="Polly" Version="8.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Clients\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+
+</Project>

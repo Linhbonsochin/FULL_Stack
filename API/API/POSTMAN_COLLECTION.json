@@ -1,0 +1,453 @@
+{
+  "info": {
+    "name": "Attendance & Leave APIs",
+    "description": "Complete API collection for Attendance Service - Payroll Integration",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Attendance APIs",
+      "item": [
+        {
+          "name": "Check-In",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/check-in?employeeId=ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8&shiftId=1",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "check-in"],
+              "query": [
+                {
+                  "key": "employeeId",
+                  "value": "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8",
+                  "description": "Employee ID (UUID)"
+                },
+                {
+                  "key": "shiftId",
+                  "value": "1",
+                  "description": "Shift ID (optional, default=1=Morning)"
+                }
+              ]
+            },
+            "description": "Record employee check-in time and calculate if late"
+          },
+          "response": []
+        },
+        {
+          "name": "Check-Out",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/check-out?employeeId=ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "check-out"],
+              "query": [
+                {
+                  "key": "employeeId",
+                  "value": "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"
+                }
+              ]
+            },
+            "description": "Record employee check-out time and calculate working hours/overtime"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Attendance History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/history/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8?year=2026&month=6",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "history", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "description": "Year (optional)"
+                },
+                {
+                  "key": "month",
+                  "value": "6",
+                  "description": "Month 1-12 (optional)"
+                }
+              ]
+            },
+            "description": "Get detailed attendance history for an employee"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Monthly Summary (FOR PAYROLL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/monthly-summary/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8?month=6&year=2026",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "monthly-summary", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "6",
+                  "description": "Month 1-12"
+                },
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "description": "Year"
+                }
+              ]
+            },
+            "description": "🔴 P0 CRITICAL - Get aggregated monthly attendance data (workingDays, leaveDays, overtimeHours, lateMinutes)\nUsed by Payroll to calculate salaries"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Leave Summary (FOR PAYROLL)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/leave-summary/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8?month=6&year=2026",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "leave-summary", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "6",
+                  "description": "Month 1-12"
+                },
+                {
+                  "key": "year",
+                  "value": "2026",
+                  "description": "Year"
+                }
+              ]
+            },
+            "description": "🔴 P0 CRITICAL - Get leave summary with approved/pending/rejected requests\nUsed by Payroll to calculate leave deductions"
+          },
+          "response": []
+        },
+        {
+          "name": "Close Month",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/close-month?year=2026&month=6",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "close-month"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "month",
+                  "value": "6"
+                }
+              ]
+            },
+            "description": "Close monthly records - finalizes all attendance data for the month"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Leave APIs",
+      "item": [
+        {
+          "name": "Get Employees for Leave",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/leave/employees",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "employees"]
+            },
+            "description": "Get list of active employees to select for leave request creation"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Leave Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8\",\n  \"startDate\": \"2026-06-15T00:00:00Z\",\n  \"endDate\": \"2026-06-17T00:00:00Z\",\n  \"reason\": \"Medical appointment\"\n}"
+            },
+            "url": {
+              "raw": "https://localhost:7108/api/leave/request",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "request"]
+            },
+            "description": "Create a new leave request"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Pending Leave Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/leave/pending-list",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "pending-list"]
+            },
+            "description": "Get all pending leave requests (for managers to approve/reject)"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Employee Leave Requests",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/leave/employee/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "employee", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"]
+            },
+            "description": "Get all leave requests for a specific employee"
+          },
+          "response": []
+        },
+        {
+          "name": "Approve Leave Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leaveRequestId\": \"<leave-request-id>\",\n  \"approverId\": \"<approver-employee-id>\",\n  \"notes\": \"Approved\"\n}"
+            },
+            "url": {
+              "raw": "https://localhost:7108/api/leave/approve/<leave-request-id>",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "approve", "<leave-request-id>"]
+            },
+            "description": "Approve a pending leave request (updates AttendanceLog to mark days as OnLeave)"
+          },
+          "response": []
+        },
+        {
+          "name": "Reject Leave Request",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leaveRequestId\": \"<leave-request-id>\",\n  \"approverId\": \"<rejector-employee-id>\",\n  \"notes\": \"Rejected - insufficient justification\"\n}"
+            },
+            "url": {
+              "raw": "https://localhost:7108/api/leave/reject/<leave-request-id>",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "reject", "<leave-request-id>"]
+            },
+            "description": "Reject a pending leave request"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "End-to-End Testing Scenario",
+      "item": [
+        {
+          "name": "1. Get Active Employees",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/leave/employees",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "employees"]
+            }
+          }
+        },
+        {
+          "name": "2. Create Leave Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"employeeId\": \"ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8\",\n  \"startDate\": \"2026-06-15T00:00:00Z\",\n  \"endDate\": \"2026-06-17T00:00:00Z\",\n  \"reason\": \"Personal leave\"\n}"
+            },
+            "url": {
+              "raw": "https://localhost:7108/api/leave/request",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "request"]
+            }
+          }
+        },
+        {
+          "name": "3. Get Pending Requests (Find ID)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/leave/pending-list",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "pending-list"]
+            }
+          }
+        },
+        {
+          "name": "4. Approve the Leave",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"leaveRequestId\": \"{{leave-request-id}}\",\n  \"approverId\": \"e63bd1b0-27a5-4dd7-bb8a-3447a7c4485b\",\n  \"notes\": \"Approved\"\n}"
+            },
+            "url": {
+              "raw": "https://localhost:7108/api/leave/approve/{{leave-request-id}}",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "leave", "approve", "{{leave-request-id}}"]
+            }
+          }
+        },
+        {
+          "name": "5. Get Monthly Summary (Payroll)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/monthly-summary/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8?month=6&year=2026",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "monthly-summary", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "6"
+                },
+                {
+                  "key": "year",
+                  "value": "2026"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "6. Get Leave Summary (Payroll)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/leave-summary/ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8?month=6&year=2026",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "leave-summary", "ccfe9ea4-f0f6-4356-84e9-9bc97072a9b8"],
+              "query": [
+                {
+                  "key": "month",
+                  "value": "6"
+                },
+                {
+                  "key": "year",
+                  "value": "2026"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "7. Close Month",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "https://localhost:7108/api/attendance/close-month?year=2026&month=6",
+              "protocol": "https",
+              "host": ["localhost"],
+              "port": "7108",
+              "path": ["api", "attendance", "close-month"],
+              "query": [
+                {
+                  "key": "year",
+                  "value": "2026"
+                },
+                {
+                  "key": "month",
+                  "value": "6"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+.vscode/
+*.sln.iml
+*.user
+*.rsuser
+.suo
+.sln
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Docker
+Dockerfile
+docker-compose*.yml
+
+# Environment files
+appsettings.Development.json
+.env
+.env.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Dependencies
+node_modules/
+packages/
+
+# Temporary files
+*.tmp
+*.temp
