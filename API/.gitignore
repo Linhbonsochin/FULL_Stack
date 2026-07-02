@@ -18,10 +18,6 @@ obj/
 *.nupkg
 .nuget/
 
-# Docker
-Dockerfile
-docker-compose*.yml
-
 # Environment files
 appsettings.Development.json
 .env
